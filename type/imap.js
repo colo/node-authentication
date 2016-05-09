@@ -24,7 +24,7 @@ module.exports =  new Class({
 	imap.connect(function(err){
 // 	  var user = null;
 	  if(err){
-// 		console.log(util.inspect(err.message));
+// 		//console.log(util.inspect(err.message));
 // 		imap.logout(function(){
 		  return fn(err, null);
 // 		});//logout

@@ -18,8 +18,8 @@ module.exports =  new Class({
   deserialize: function(id, done) {
 	var notFound = true;
 	this.users.each(function(user){
-// 	  console.log(user['id']);
-// 	  console.log(id);
+// 	  //console.log(user['id']);
+// 	  //console.log(id);
 
 	  if (user['id'] == id) {
 		notFound = false;
