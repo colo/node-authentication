@@ -8,7 +8,9 @@ exports.VERSION = packageJSON.version.split('.');
 
 exports.MemoryStore = require('./store/memory.js');
 
-exports.Imap = require('./type/imap.js');
+exports.ImapAuth = require('./auth/imap.js');
+exports.MemoryAuth = require('./auth/memory.js');
+
 
 
 

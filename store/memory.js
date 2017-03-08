@@ -7,43 +7,41 @@ module.exports =  new Class({
 //    { id: 1, username: 'lbueno@e-ducativa.com' , role: 'admin'},
 //   ],
   
-  users: [],
+  //users: [],
+  options: {
+		users: null,
+  },
   
-  initialize: function(users){
-	this.users = users;
+  //initialize: function(users){
+		//this.options.users = users;
+  //},
+  initialize: function(options){
+		this.setOptions(options);
   },
   serialize: function(user, done) {
-	done(null, user.id);
+		done(null, user.id);
   },
   deserialize: function(id, done) {
-	var notFound = true;
-	this.users.each(function(user){
-// 	  //console.log(user['id']);
-// 	  //console.log(id);
+		var notFound = true;
+		this.options.users.each(function(user){
+			if (user['id'] == id) {
+			notFound = false;
+			done(null, user);
+			} 
+		});
 
-	  if (user['id'] == id) {
-		notFound = false;
-// 		fn(null, user);
-		done(null, user);
-	  } 
-	});
+		if(notFound === true)
+			done(new Error('User ' + id + ' does not exist'));
 
-	if(notFound === true)
-	  done(new Error('User ' + id + ' does not exist'));
-// 	  fn(new Error('User ' + id + ' does not exist'));
-
-// 	this.findById(id, function (err, user) {
-// 	  done(err, user);
-// 	});
   },
   findByUserName: function(username){
-	var user = null;
-	this.users.each(function(u){
-	  if (u.username == username) {
-		user = u;
-	  }
-	});
+		var user = null;
+		this.options.users.each(function(u){
+			if (u.username == username) {
+			user = u;
+			}
+		});
 
-	return user;
+		return user;
   }
 });
