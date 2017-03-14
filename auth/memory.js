@@ -28,7 +28,7 @@ module.exports =  new Class({
 		this.options.users.each(function(item){
 		//this.users.each(function(item){
 			if(item.username == username && item.password == password){
-			user = username;
+				user = username;
 			}
 		});
 		
