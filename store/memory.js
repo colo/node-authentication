@@ -1,35 +1,28 @@
-var moootools = require('mootools');
+var Store = require('./store');
 
 module.exports =  new Class({
-  Implements: [Options, Events],
+  Extends: Store,
   
-//   users: [
-//    { id: 1, username: 'lbueno@e-ducativa.com' , role: 'admin'},
-//   ],
+  users: [],
   
-  //users: [],
   options: {
-		users: null,
   },
   
-  //initialize: function(users){
-		//this.options.users = users;
-  //},
-  initialize: function(options){
-		this.setOptions(options);
+  initialize: function(users){
+		this.load(users);
   },
   /**
    * needed for node-express-authentication->passport intregration
    * */
-  serialize: function(user, done) {
-		done(null, user.id);
-  },
+  //serialize: function(user, done) {
+		//done(null, user.id);
+  //},
   /**
    * needed for node-express-authentication->passport intregration
    * */
   deserialize: function(id, done) {
 		var notFound = true;
-		this.options.users.each(function(user){
+		this.users.each(function(user){
 			if (user['id'] == id) {
 				notFound = false;
 				done(null, user);
@@ -45,7 +38,7 @@ module.exports =  new Class({
    * */
   findByUserName: function(username){
 		var user = null;
-		this.options.users.each(function(u){
+		this.users.each(function(u){
 			if (u.username == username) {
 				user = u;
 			}
@@ -57,7 +50,7 @@ module.exports =  new Class({
   findByID: function(id){
 		var user = null;
 		
-		this.options.users.each(function(u){
+		this.users.each(function(u){
 			if (u.id == id) {
 				user = u;
 			}
@@ -66,12 +59,13 @@ module.exports =  new Class({
 		return user;
   },
   
-  addUsers: function(users){
-		users.each(function(u){
-			this.addUser(u);
-		}.bind(this));
-	},
-	addUser: function(user){
+  //load: function(users){
+		//users.each(function(u){
+			//this.add(u);
+		//}.bind(this));
+	//},
+	
+	add: function(user){
 		//if(user.id && user.username && user.role){
 			//var u = {
 				//id: user.id,
@@ -79,19 +73,19 @@ module.exports =  new Class({
 				//role: user.role
 			//};
 			
-			//this.options.users.push(u);
+			//this.users.push(u);
 		if(user.id && user.username){
-			this.options.users.push(user);
+			this.users.push(user);
 		}
 		else{
 			 throw Error('Invalid id|username format');
 		}
 	},
-	removeUser: function(user){
+	remove: function(user){
 		try{
-			this.options.users.each(function(u, index){
+			this.users.each(function(u, index){
 				if(u.id == user.id && u.username == user.username){
-					 this.options.users.splice(index, 1);
+					 this.users.splice(index, 1);
 					 throw new Error('user found');
 				}
 			}.bind(this));
@@ -106,18 +100,19 @@ module.exports =  new Class({
 		
 		
 	},
-	removeByUserName: function(username){
-		var user = this.findByUserName(username);
-		if(user != null)
-			user = this.removeUser(user);
+	//removeByUserName: function(username){
+		//var user = this.findByUserName(username);
+		//if(user != null)
+			//user = this.remove(user);
 			
-		return user;
-	},
-	removeByID: function(id){
-		var user = this.findByID(id);
-		if(user != null)
-			user = this.removeUser(user);
+		//return user;
+	//},
+	//removeByID: function(id){
+		//var user = this.findByID(id);
+		//if(user != null)
+			//user = this.remove(user);
 			
-		return user;
-	},
+		//return user;
+	//},
+	//save: function(){}
 });

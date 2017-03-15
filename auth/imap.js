@@ -1,9 +1,9 @@
-var moootools = require('mootools');
+var Auth = require('./auth');
 
 var ImapConnection = require('imap').ImapConnection;
 
 module.exports =  new Class({
-  Implements: [Options, Events],
+  Extends: Auth,
   
   options: {
 		host: 'localhost',
@@ -12,7 +12,7 @@ module.exports =  new Class({
   },
   
   initialize: function(options){
-		this.setOptions(options);
+		this.parent(options);
   },
   authenticate: function (username, password, fn) {
 	
