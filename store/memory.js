@@ -76,9 +76,10 @@ module.exports =  new Class({
 			//this.users.push(u);
 		if(user.id && user.username){
 			this.users.push(user);
+			return this.parent(user);
 		}
 		else{
-			 throw Error('Invalid id|username format');
+			 throw new Error('Invalid id|username format');
 		}
 	},
 	remove: function(user){
@@ -90,12 +91,32 @@ module.exports =  new Class({
 				}
 			}.bind(this));
 			
-			return null;
+			return this.parent(null);
 		}
 		catch(e){
-			console.log(e);
+			//console.log(e);
 			
-			return user;
+			return this.parent(user);
+		}
+		
+		
+	},
+	update: function(user){
+		try{
+			this.users.each(function(u, index){
+				if(u.id == user.id && u.username == user.username){
+					 //this.users.splice(index, 1);
+					 this.users[index] = user;
+					 throw new Error('user found');
+				}
+			}.bind(this));
+			
+			return this.parent(null);
+		}
+		catch(e){
+			//console.log(e);
+			
+			return this.parent(user);
 		}
 		
 		

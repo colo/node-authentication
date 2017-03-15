@@ -3,6 +3,8 @@ var moootools = require('mootools');
 module.exports =  new Class({
   Implements: [Options, Events],
   
+  ON_ADD: 'onAdd',
+  ON_REMOVE: 'onRemove',
   
   options: {
   },
@@ -40,10 +42,16 @@ module.exports =  new Class({
 		}.bind(this));
 	},
 	add: function(user){
-		return null
+		this.fireEvent(this.ON_ADD, user);
+		return user;
 	},
 	remove: function(user){
-		return null
+		this.fireEvent(this.ON_REMOVE, user);
+		return user;
+	},
+	update: function(user){
+		this.fireEvent(this.ON_UPDATE, user);
+		return user;
 	},
 	removeByUserName: function(username){
 		var user = this.findByUserName(username);
@@ -56,6 +64,20 @@ module.exports =  new Class({
 		var user = this.findByID(id);
 		if(user != null)
 			user = this.remove(user);
+			
+		return user;
+	},
+	updateByUserName: function(username){
+		var user = this.findByUserName(username);
+		if(user != null)
+			user = this.update(user);
+			
+		return user;
+	},
+	updateByID: function(id){
+		var user = this.findByID(id);
+		if(user != null)
+			user = this.update(user);
 			
 		return user;
 	},
