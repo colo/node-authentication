@@ -5,6 +5,7 @@ module.exports =  new Class({
   
   ON_ADD: 'onAdd',
   ON_REMOVE: 'onRemove',
+  ON_UPDATE: 'onUpdate',
   
   options: {
   },
@@ -36,52 +37,83 @@ module.exports =  new Class({
 		return null;
   },
   
-  load: function(users){
+  load: function(users, callback){
+		var failed = [];
+		
+		
 		users.each(function(u){
-			this.add(u);
+			this.add(u, function(err, user){
+				failed.push([err, user]);
+			});
 		}.bind(this));
+		
+		callback(failed);
 	},
-	add: function(user){
-		this.fireEvent(this.ON_ADD, user);
-		return user;
+	list: function(callback){
+		callback(this.users);
 	},
-	remove: function(user){
-		this.fireEvent(this.ON_REMOVE, user);
-		return user;
+	add: function(user, callback){
+		
+		if(user instanceof Error){
+			callback(user.message, user.user);
+		}
+		else{
+			this.fireEvent(this.ON_ADD, user);
+			callback(null, user);
+		}
+		
 	},
-	update: function(user){
-		this.fireEvent(this.ON_UPDATE, user);
-		return user;
+	remove: function(user, callback){
+		if(user instanceof Error){
+			callback(user.message, user.user);
+		}
+		else{
+			this.fireEvent(this.ON_REMOVE, user);
+			callback(null, user);
+		}
+		
 	},
-	removeByUserName: function(username){
-		var user = this.findByUserName(username);
-		if(user != null)
-			user = this.remove(user);
+	update: function(user, callback){
+		
+		if(user instanceof Error){
+			callback(user.message, user.user);
+		}
+		else{
+			this.fireEvent(this.ON_UPDATE, user);
+			callback(null, user);
+		}
+		
+	},
+	//removeByUserName: function(username, callback){
+		//var user = this.findByUserName(username);
+		//if(user != null)
+			//user = this.remove(user);
 			
-		return user;
-	},
-	removeByID: function(id){
-		var user = this.findByID(id);
-		if(user != null)
-			user = this.remove(user);
+		//callback(null, user);
+	//},
+	//removeByID: function(id, callback){
+		//var user = this.findByID(id);
+		//if(user != null)
+			//user = this.remove(user);
 			
-		return user;
-	},
-	updateByUserName: function(username){
-		var user = this.findByUserName(username);
-		if(user != null)
-			user = this.update(user);
+		//callback(null, user);
+	//},
+	//updateByUserName: function(username, callback){
+		//var user = this.findByUserName(username);
+		//if(user != null)
+			//user = this.update(user);
 			
-		return user;
-	},
-	updateByID: function(id){
-		var user = this.findByID(id);
-		if(user != null)
-			user = this.update(user);
+		//callback(null, user);
+	//},
+	//updateByID: function(id, callback){
+		//var user = this.findByID(id);
+		
+		//if(user != null)
+			//user = this.update(user);
 			
-		return user;
-	},
-	save: function(){
-		return null;
+		//callback(null, user);
+	//},
+	save: function(callback){
+		callback(null, false);
 	}
 });
