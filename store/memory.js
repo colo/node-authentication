@@ -44,8 +44,9 @@ module.exports =  new Class({
    * needed for node-express-authentication->passport intregration
    * */
   findByUserName: function(username){
-		var user = new Error('user not found');
-		user.username = username;
+		//var user = new Error('user not found');
+		var user = false;
+		//user.username = username;
 		
 		this.users.each(function(u){
 			if (u.username == username) {
