@@ -69,7 +69,24 @@ module.exports =  new Class({
 
 		return user;
   },
-  
+  findByToken: function(token){
+		var user = new Error('user not found');
+		user.token = token;
+		
+		this.users.each(function(u){
+			if (u.token) {
+				/**
+				 * may add other tokken formats in the future, now just uuid
+				 * 
+				 * */
+				if(u.token.uuid == token){
+					user = u;
+				}
+			}
+		});
+
+		return user;
+  },
   //load: function(users){
 		//users.each(function(u){
 			//this.add(u);

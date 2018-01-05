@@ -11,24 +11,41 @@ module.exports =  new Class({
   
   authenticate: function (username, password, fn) {
 		var user = null;
-		var error = null;
+		var error = 'Invalid credentials';
 		
-		try{
+		//try{
+			
 			this.users.each(function(item){
-			//this.users.each(function(item){
-				if(item.username == username && item.password == password){
+			
+				if(username.token && item.token){
+					/**
+					 * may add other tokken formats in the future, now just uuid
+					 * 
+					 * */
+					if(username.token === item.token.uuid){
+						user = username;
+						error = null;
+						//throw new Error('user found');
+					}
+				}
+				else if(item.username == username && item.password == password){
+					//console.log(username)
+					//console.log(item)
 					user = username;
-					throw new Error('user found');
+					error = null;
+					//throw new Error('user found');
 				}
 			});
 			
-			error = 'Invalid user or password';
-			return fn(error, user);
-		}
-		catch(e){//user found
-			//console.log('user found');
-			return fn(error, user);
-		}
-	
+			//error = 'Invalid user or password';
+			
+		//}
+		//catch(e){//user found
+			////console.log('user found', user);
+			////return fn(error, user);
+		//}
+		console.log('user found', error);
+		
+		return fn(error, user);
   },
 });
