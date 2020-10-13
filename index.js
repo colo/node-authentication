@@ -7,10 +7,7 @@ var path = require('path'),
 exports.VERSION = packageJSON.version.split('.');
 
 exports.MemoryStore = require('./store/memory.js');
+exports.RethinkDBStore = require('./store/rethinkdb.js');
 
 exports.ImapAuth = require('./auth/imap.js');
 exports.MemoryAuth = require('./auth/memory.js');
-
-
-
-
